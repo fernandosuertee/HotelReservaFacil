@@ -1,0 +1,94 @@
+<div class="main-container">
+  <div class="container d-flex justify-content-center mt-5">
+    <div class="col-md-6 col-lg-4">
+      <div class="bg-image hover-overlay ripple">
+        <a href="#" target="_blank">
+          <img src="assets/reservafacil.png" alt="Reserva Fácil" class="img-fluid" />
+        </a>
+      </div>
+
+      <app-input
+        type="number"
+        [(model)]="numero"
+        id="numeroInput"
+        label="Número do Quarto"
+        placeholder="Digite o número do quarto (entre 100 e 9999)"
+      ></app-input>
+    
+
+  <div class="form-outline mb-4">
+    <select [(ngModel)]="tipo" id="tipoSelect" class="form-control" required (change)="onTipoChange()">
+      <option value="" disabled [selected]="!tipo">Selecione o tipo do quarto</option>
+      <option value="Quarto Solteiro">Quarto Solteiro (até 1 hóspede)</option>
+      <option value="Quarto Casal">Quarto Casal (1 a 2 hóspedes)</option>
+      <option value="Quarto Triplo">Quarto Triplo (1 a 3 hóspedes)</option>
+      <option value="Apartamento">Apartamento (1 a 7 hóspedes)</option>
+      <option value="Master Deluxe">Master Deluxe Casal (1 a 2 hóspedes)</option>
+    </select>
+    <label class="floating-label" for="tipoSelect">Tipo do Quarto</label>
+  </div>
+
+  <div class="form-outline mb-4">
+    <select [(ngModel)]="status" id="statusSelect" class="form-control" required>
+      <option value="" disabled [selected]="!status">Selecione o status</option>
+      <option value="Disponível">Disponível</option>
+      <option value="Manutenção">Manutenção</option>
+    </select>
+    <label class="floating-label" for="statusSelect">Status do Quarto</label>
+  </div>
+
+  <div class="form-outline mb-4">
+    <select [(ngModel)]="hotelSelecionado" id="hotelSelect" class="form-control" required>
+      <option value="" disabled [selected]="!hotelSelecionado">Selecione o hotel</option>
+      <option *ngFor="let hotel of hoteis" [value]="hotel.id">{{ hotel.nome }}</option>
+    </select>
+    <label class="floating-label" for="hotelSelect">Selecionar Hotel</label>
+  </div>
+
+  <div class="form-row">
+    <div class="form-outline half-width">
+      <app-input
+        type="number"
+        [(model)]="capacidadeMinima"
+        id="capacidadeMinimaInput"
+        label="Capacidade Mínima"
+        placeholder="Digite a capacidade mínima"
+        (change)="validarCapacidade()"
+      ></app-input>
+    </div>
+  
+    <div class="form-outline half-width">
+      <app-input
+        type="number"
+        [(model)]="capacidadeMaxima"
+        id="capacidadeMaximaInput"
+        label="Capacidade Máxima"
+        placeholder="Digite a capacidade máxima"
+        (change)="validarCapacidade()"
+      ></app-input>
+    </div>
+  </div>
+  
+
+      <button
+        type="button"
+        class="btn btn-primary btn-block mb-4"
+        (click)="cadastrarQuarto()"
+        [disabled]="isLoading"
+      >
+        Cadastrar Quarto
+      </button>
+    </div>
+  </div>
+  
+
+  <div *ngIf="isLoading" class="d-flex justify-content-center mb-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+  </div>
+
+  <footer class="footer">
+    © 2024 Reserva Fácil. Todos os direitos reservados.
+  </footer>
+</div>

@@ -1,0 +1,65 @@
+<div class="main-container">
+  <div class="container d-flex justify-content-center mt-5">
+    <div class="col-md-6 col-lg-4">
+      <div class="bg-image hover-overlay ripple">
+        <a href="#" target="_blank">
+          <img src="assets/reservafacil.png" alt="Reserva Fácil" class="img-fluid" />
+        </a>
+      </div>
+
+      <app-input
+        type="text"
+        [(model)]="nome"
+        id="nameInput"
+        label="Nome do Hotel"
+        placeholder=" "
+        (input)="formatarNome(nome)"
+      ></app-input>
+
+
+      <app-input
+        type="text"
+        [(model)]="endereco"
+        id="addressInput"
+        label="Endereço"
+        placeholder=" "
+      ></app-input>
+
+      <app-input
+        type="text"
+        [(model)]="descricao"
+        id="descriptionInput"
+        label="Descrição"
+        placeholder=" "
+      ></app-input>
+
+      <app-input
+        type="number"
+        [(model)]="numeroDeQuartos"
+        id="roomCountInput"
+        label="Número de Quartos"
+        placeholder=" "
+      ></app-input>
+
+      <div *ngIf="isLoading" class="d-flex justify-content-center mb-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Carregando...</span>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-primary btn-block mb-4"
+        (click)="cadastrarHotel()"
+        [disabled]="isLoading"
+      >
+        Cadastrar Hotel
+      </button>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    © 2024 Reserva Fácil. Todos os direitos reservados.
+  </footer>
+</div>
