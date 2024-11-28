@@ -83,11 +83,9 @@ public class Quarto {
 	}
 
 
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 
 
 	public String getNumero() {
@@ -95,11 +93,9 @@ public class Quarto {
 	}
 
 
-
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
-
 
 
 	public String getTipo() {
@@ -107,11 +103,9 @@ public class Quarto {
 	}
 
 
-
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-
 
 
 	public String getStatus() {
@@ -119,17 +113,14 @@ public class Quarto {
 	}
 
 
-
 	public void setStatus(String status) {
 		this.status = status;
 	}
 
 
-
 	public Integer getCapacidadeMinima() {
 		return capacidadeMinima;
 	}
-
 
 
 	public void setCapacidadeMinima(Integer capacidadeMinima) {
@@ -143,18 +134,14 @@ public class Quarto {
 	}
 
 
-
 	public void setCapacidadeMaxima(Integer capacidadeMaxima) {
 		this.capacidadeMaxima = capacidadeMaxima;
 	}
 
 
-
 	public Hotel getHotel() {
 		return hotel;
 	}
-
-
 
 	public void setHotel(Hotel hotel) {
 		this.hotel = hotel;
