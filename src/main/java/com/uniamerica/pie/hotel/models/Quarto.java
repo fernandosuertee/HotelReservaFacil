@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -54,19 +54,18 @@ public class Quarto {
     @Column(name = "capacidade_maxima", nullable = false)
     private Integer capacidadeMaxima;
 
-    @ManyToOne(fetch = FetchType.EAGER) 
+    @ManyToOne(fetch = FetchType.LAZY) 
     @JoinColumn(name = "hotel_id", nullable = false)
     @JsonIgnoreProperties("quartos") 
     private Hotel hotel;
 
 
-    @OneToMany(mappedBy = "quarto")
-    @JsonIgnoreProperties("quarto")
+    @OneToMany(mappedBy = "quarto", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"quarto", "hotel", "hospede"})
     private List<Reserva> reservas = new ArrayList<>();
 
 
   
-
     public Quarto(String numero, String tipo, String status, Integer capacidadeMinima, Integer capacidadeMaxima, Hotel hotel) {
         this.numero = numero;
         this.tipo = tipo;
@@ -128,7 +127,6 @@ public class Quarto {
 	}
 
 
-
 	public Integer getCapacidadeMaxima() {
 		return capacidadeMaxima;
 	}
@@ -148,18 +146,14 @@ public class Quarto {
 	}
 
 
-
 	public List<Reserva> getReservas() {
 		return reservas;
 	}
 
 
-
 	public void setReservas(List<Reserva> reservas) {
 		this.reservas = reservas;
 	}
-
-
 
 	public Quarto() {}
 

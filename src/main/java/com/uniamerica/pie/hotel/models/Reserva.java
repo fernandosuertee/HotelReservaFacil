@@ -2,10 +2,15 @@ package com.uniamerica.pie.hotel.models;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.uniamerica.pie.hotel.models.enums.StatusReserva;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,22 +26,23 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "reservas")
 public class Reserva {
 
-	
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-	@ManyToOne
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"reservas"})
     @JoinColumn(name = "hospede_id", nullable = false)
     private Hospede hospede;
 
-	@ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"reservas"})
     @JoinColumn(name = "hotel_id", nullable = false)
     private Hotel hotel;
 
-	@ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"reservas", "hotel"})
     @JoinColumn(name = "quarto_id", nullable = false)
     private Quarto quarto;
 
@@ -53,91 +59,94 @@ public class Reserva {
     @Column(name = "num_hospedes", nullable = false)
     private Integer numHospedes;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_reserva", nullable = false)
+    private StatusReserva statusReserva = StatusReserva.CONFIRMADA; // Valor padrão
 
-    @Column(name = "status", nullable = false)
-    private String status;
 
-    
-    public Long getId() {
-		return id;
-	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Hospede getHospede() {
-		return hospede;
-	}
-
-	public void setHospede(Hospede hospede) {
-		this.hospede = hospede;
-	}
-
-	public Hotel getHotel() {
-		return hotel;
-	}
-
-	public void setHotel(Hotel hotel) {
-		this.hotel = hotel;
-	}
-
-	public Quarto getQuarto() {
-		return quarto;
-	}
-
-	public void setQuarto(Quarto quarto) {
-		this.quarto = quarto;
-	}
-
-	public LocalDate getDataCheckIn() {
-		return dataCheckIn;
-	}
-
-	public void setDataCheckIn(LocalDate dataCheckIn) {
-		this.dataCheckIn = dataCheckIn;
-	}
-
-	public LocalDate getDataCheckOut() {
-		return dataCheckOut;
-	}
-
-	public void setDataCheckOut(LocalDate dataCheckOut) {
-		this.dataCheckOut = dataCheckOut;
-	}
-
-	public Integer getNumHospedes() {
-		return numHospedes;
-	}
-
-	public void setNumHospedes(Integer numHospedes) {
-		this.numHospedes = numHospedes;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	
-	
-	public Reserva() {
+    public Reserva() {
     }
 
+    
     public Reserva(Hospede hospede, Hotel hotel, Quarto quarto, LocalDate dataCheckIn, LocalDate dataCheckOut,
-            Integer numHospedes, String status) {
+                   Integer numHospedes, StatusReserva statusReserva) {
         this.hospede = hospede;
         this.hotel = hotel;
         this.quarto = quarto;
         this.dataCheckIn = dataCheckIn;
         this.dataCheckOut = dataCheckOut;
         this.numHospedes = numHospedes;
-        this.status = status;
+        this.statusReserva = statusReserva;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Hospede getHospede() {
+        return hospede;
+    }
+
+    public void setHospede(Hospede hospede) {
+        this.hospede = hospede;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
+
+    public Quarto getQuarto() {
+        return quarto;
+    }
+
+    public void setQuarto(Quarto quarto) {
+        this.quarto = quarto;
+    }
+
+    public LocalDate getDataCheckIn() {
+        return dataCheckIn;
+    }
+
+    public void setDataCheckIn(LocalDate dataCheckIn) {
+        this.dataCheckIn = dataCheckIn;
+    }
+
+    public LocalDate getDataCheckOut() {
+        return dataCheckOut;
+    }
+
+    public void setDataCheckOut(LocalDate dataCheckOut) {
+        this.dataCheckOut = dataCheckOut;
+    }
+
+    public Integer getNumHospedes() {
+        return numHospedes;
+    }
+
+    public void setNumHospedes(Integer numHospedes) {
+        this.numHospedes = numHospedes;
+    }
+
+    public StatusReserva getStatusReserva() {
+        return statusReserva;
+    }
+
+    public void setStatusReserva(StatusReserva statusReserva) {
+        this.statusReserva = statusReserva;
     }
 
     
-    
+    public boolean isEncerrada() {
+        return this.statusReserva == StatusReserva.ENCERRADA;
+    }
 }

@@ -26,6 +26,7 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "http://localhost:4200")
 public class ReservaController {
 
+	
     @Autowired
     private ReservaService reservaService;
 
@@ -64,7 +65,6 @@ public class ReservaController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarReserva(@PathVariable Long id) {

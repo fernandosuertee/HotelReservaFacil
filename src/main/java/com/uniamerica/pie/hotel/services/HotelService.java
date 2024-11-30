@@ -42,7 +42,6 @@ public class HotelService {
     public Hotel atualizarHotel(Long id, Hotel hotelAtualizado) {
         Hotel hotelExistente = buscarPorId(id);
 
-        // Se o nome foi alterado, verificar se já existe outro hotel com o mesmo nome
         if (!hotelExistente.getNome().equalsIgnoreCase(hotelAtualizado.getNome())) {
             if (hotelRepository.existsByNomeIgnoreCase(hotelAtualizado.getNome())) {
                 throw new IllegalArgumentException("Já existe um hotel com este nome.");
@@ -59,9 +58,18 @@ public class HotelService {
     public void deletarHotel(Long id) {
         Hotel hotel = buscarPorId(id);
 
-        // Verificar se algum quarto do hotel possui reservas ativas ou futuras
+       
         LocalDate hoje = LocalDate.now();
         List<Quarto> quartosDoHotel = quartoRepository.findByHotel(hotel);
+
+      
+        boolean possuiQuartosOcupados = quartosDoHotel.stream()
+            .anyMatch(quarto -> "Ocupado".equalsIgnoreCase(quarto.getStatus()));
+        if (possuiQuartosOcupados) {
+            throw new IllegalArgumentException("Não é possível excluir um hotel que possui quartos ocupados.");
+        }
+
+        
         for (Quarto quarto : quartosDoHotel) {
             List<Reserva> reservasAtivas = reservaRepository.findByQuartoIdAndDataCheckOutAfter(quarto.getId(), hoje);
             if (!reservasAtivas.isEmpty()) {
@@ -69,12 +77,11 @@ public class HotelService {
             }
         }
 
-        // Deletar todos os quartos do hotel
         quartoRepository.deleteAllByHotel(hotel);
 
-        // Deletar o hotel
         hotelRepository.delete(hotel);
     }
+
 
     public List<Hotel> listarTodos() {
         return hotelRepository.findAll();

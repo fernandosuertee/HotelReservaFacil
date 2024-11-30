@@ -46,7 +46,6 @@ public class HotelController {
         }
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<Hotel> buscarHotelPorId(@PathVariable Long id) {
         Hotel hotel = hotelService.buscarPorId(id);
@@ -62,8 +61,6 @@ public class HotelController {
         });
         return ResponseEntity.ok(hoteis);
     }
-
-
 
     @PutMapping("/{id}")
     public ResponseEntity<Hotel> atualizarHotel(@PathVariable Long id, @Valid @RequestBody Hotel hotelAtualizado) {

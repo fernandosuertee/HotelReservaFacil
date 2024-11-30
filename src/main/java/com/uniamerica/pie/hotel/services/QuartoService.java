@@ -7,6 +7,7 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uniamerica.pie.hotel.models.Hotel;
 import com.uniamerica.pie.hotel.models.Quarto;
 import com.uniamerica.pie.hotel.models.Reserva;
 import com.uniamerica.pie.hotel.repositories.QuartoRepository;
@@ -43,6 +44,9 @@ public class QuartoService {
         return quartos;
     }
 
+    public List<Quarto> listarQuartosDisponiveis() {
+        return quartoRepository.findByStatus("Disponível");
+    }
 
     public Quarto buscarPorId(Long id) {
         Quarto quarto = quartoRepository.findById(id)
@@ -55,9 +59,13 @@ public class QuartoService {
         return quarto;
     }
 
-
     public Quarto cadastrarQuarto(Quarto quarto) {
        
+    	Hotel hotel = quarto.getHotel();
+        if (hotel == null || hotel.getId() == null) {
+            throw new IllegalArgumentException("Hotel é obrigatório para cadastrar um quarto.");
+        }
+    	
         if (quarto.getNumero() == null || quarto.getNumero().length() < 3 || quarto.getNumero().length() > 4) {
             throw new IllegalArgumentException("O número do quarto deve ter entre 3 e 4 caracteres.");
         }
@@ -81,7 +89,6 @@ public class QuartoService {
         return quartoSalvo;
     }
 
-
     public Quarto atualizarQuarto(Long id, Quarto quartoAtualizado) {
         Quarto quartoExistente = buscarPorId(id);
 
@@ -101,8 +108,7 @@ public class QuartoService {
 
         return quartoRepository.save(quartoExistente);
     }
-
-    
+  
     private void validarCapacidadePorTipo(Quarto quarto) {
         switch (quarto.getTipo().toLowerCase()) {
             case "quarto solteiro":
@@ -135,8 +141,6 @@ public class QuartoService {
         }
     }
 
-
-    
     public void deletarQuarto(Long id) {
         Quarto quarto = buscarPorId(id);
 

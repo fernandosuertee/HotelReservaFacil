@@ -2,9 +2,7 @@ package com.uniamerica.pie.hotel.models;
 
 import java.util.List;
 
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,7 +38,7 @@ public class Hospede {
 
     
     @OneToMany(mappedBy = "hospede")
-    @JsonManagedReference
+    @JsonIgnore
     private List<Reserva> reservas;
 
 	public Long getId() {
@@ -75,9 +73,7 @@ public class Hospede {
 		this.reservas = reservas;
 	}
 
-   
 	public Hospede() {}
-
 	 
 	public Hospede(String nome, String email) {
 		this.nome = nome;

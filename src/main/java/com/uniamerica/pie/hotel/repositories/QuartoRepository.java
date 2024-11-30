@@ -17,6 +17,13 @@ public interface QuartoRepository extends JpaRepository<Quarto, Long> {
 
     List<Quarto> findByHotel(Hotel hotel);
     
-
+    List<Quarto> findByHotelIdAndStatus(Long hotelId, String status);
+    
     long countByHotelId(Long hotelId);
+    
+    List<Quarto> findByHotelId(Long hotelId);
+
+    
+    List<Quarto> findByStatus(String status);
+    
 }
