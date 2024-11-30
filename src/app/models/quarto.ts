@@ -7,7 +7,7 @@ export class Quarto {
   status: string;
   capacidadeMinima: number;
   capacidadeMaxima: number;
-  hotel: Hotel; // 'hotel' é obrigatório
+  hotel: { id: number; nome: string };
 
   constructor(
     numero: string,
@@ -15,7 +15,7 @@ export class Quarto {
     status: string,
     capacidadeMinima: number,
     capacidadeMaxima: number,
-    hotel: Hotel,
+    hotel: { id: number; nome: string},
     id?: number
   ) {
     this.id = id;

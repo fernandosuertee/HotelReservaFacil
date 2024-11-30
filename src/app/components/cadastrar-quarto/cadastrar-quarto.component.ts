@@ -226,6 +226,8 @@ export class CadastrarQuartoComponent {
     if (!this.validarCampos()) {
       return;
     }
+  
+    const hotelSelecionado = this.hoteis.find(h => h.id === this.hotelSelecionado);
 
     const novoQuarto: Quarto = {
       numero: this.numero!.toString(),
@@ -235,12 +237,12 @@ export class CadastrarQuartoComponent {
       capacidadeMaxima: this.capacidadeMaxima!,
       hotel: {
         id: Number(this.hotelSelecionado),
-        nome: ''
+        nome: hotelSelecionado?.nome || ''
       },
     };
-
+  
     console.log("Quarto antes do envio ao serviço:", novoQuarto);
-
+  
     this.isLoading = true;
 
     this.quartoService.createQuarto(novoQuarto).subscribe({

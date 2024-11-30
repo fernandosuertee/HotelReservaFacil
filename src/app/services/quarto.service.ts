@@ -20,12 +20,20 @@ export class QuartoService {
       capacidadeMaxima: quarto.capacidadeMaxima,
       hotel: { id: quarto.hotel.id },
     };
-
+  
     console.log("Payload enviado para a API:", payload);
-
+  
     return this.http.post<any>(this.API, payload);
+    
   }
   
+  updateQuartoStatus(id: number, status: string): Observable<Quarto> {
+    return this.http.patch<Quarto>(`${this.API}/${id}/status`, { status });
+  }  
+
+  getTodosQuartosPorHotel(hotelId: number): Observable<Quarto[]> {
+    return this.http.get<Quarto[]>(`${this.API}/hotel/${hotelId}/todos`);
+  }
 
   getAllQuartos(): Observable<Quarto[]> {
     return this.http.get<Quarto[]>(this.API);

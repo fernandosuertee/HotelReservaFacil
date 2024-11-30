@@ -72,8 +72,8 @@ export class GerenciarQuartoComponent {
     this.quartoService.getQuartoById(this.quartoId).subscribe({
       next: (quarto) => {
         this.isLoading = false;
-        this.quartoSelecionado = quarto; // Armazena os dados do quarto selecionado
-        this.showDetailsModal = true; // Exibe o modal de detalhes
+        this.quartoSelecionado = quarto; 
+        this.showDetailsModal = true; 
       },
       error: () => {
         this.isLoading = false;
