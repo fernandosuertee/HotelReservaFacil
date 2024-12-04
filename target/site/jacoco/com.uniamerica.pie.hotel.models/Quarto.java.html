@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Quarto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hotel-silvania</a> &gt; <a href="index.source.html" class="el_package">com.uniamerica.pie.hotel.models</a> &gt; <span class="el_source">Quarto.java</span></div><h1>Quarto.java</h1><pre class="source lang-java linenums">package com.uniamerica.pie.hotel.models;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
+
+
+@Entity
+@Table (name = &quot;quartos&quot;)
+public class Quarto {
+	
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = &quot;id&quot;)
+    private Long id;
+
+    @NotNull(message = &quot;O número do quarto é obrigatório&quot;)
+    @Column(name = &quot;numero&quot;, nullable = false)
+    @Size(min = 3, max = 4, message = &quot;O número do quarto deve ter entre 3 e 4 caracteres&quot;)
+    private String numero;
+
+    @NotBlank(message = &quot;O tipo do quarto é obrigatório&quot;)
+    @Column(name = &quot;tipo&quot;, nullable = false)
+    private String tipo;
+
+    @NotBlank(message = &quot;O status é obrigatório&quot;)
+    @Column(name = &quot;status&quot;, nullable = false)
+    private String status;
+
+    @NotNull(message = &quot;A capacidade mínima é obrigatória&quot;)
+    @Column(name = &quot;capacidade_minima&quot;, nullable = false)
+    private Integer capacidadeMinima;
+
+    @NotNull(message = &quot;A capacidade máxima é obrigatória&quot;)
+    @Column(name = &quot;capacidade_maxima&quot;, nullable = false)
+    private Integer capacidadeMaxima;
+
+    @ManyToOne(fetch = FetchType.LAZY) 
+    @JoinColumn(name = &quot;hotel_id&quot;, nullable = false)
+    @JsonIgnoreProperties(&quot;quartos&quot;) 
+    private Hotel hotel;
+
+
+<span class="fc" id="L63">    @OneToMany(mappedBy = &quot;quarto&quot;, cascade = CascadeType.ALL)</span>
+    @JsonIgnoreProperties({&quot;quarto&quot;, &quot;hotel&quot;, &quot;hospede&quot;})
+    private List&lt;Reserva&gt; reservas = new ArrayList&lt;&gt;();
+
+
+  
+<span class="fc" id="L69">    public Quarto(String numero, String tipo, String status, Integer capacidadeMinima, Integer capacidadeMaxima, Hotel hotel) {</span>
+<span class="fc" id="L70">        this.numero = numero;</span>
+<span class="fc" id="L71">        this.tipo = tipo;</span>
+<span class="fc" id="L72">        this.status = status;</span>
+<span class="fc" id="L73">        this.capacidadeMinima = capacidadeMinima;</span>
+<span class="fc" id="L74">        this.capacidadeMaxima = capacidadeMaxima;</span>
+<span class="fc" id="L75">        this.hotel = hotel;</span>
+<span class="fc" id="L76">    }</span>
+
+    
+	
+	public Long getId() {
+<span class="nc" id="L81">		return id;</span>
+	}
+
+
+	public void setId(Long id) {
+<span class="nc" id="L86">		this.id = id;</span>
+<span class="nc" id="L87">	}</span>
+
+
+	public String getNumero() {
+<span class="fc" id="L91">		return numero;</span>
+	}
+
+
+	public void setNumero(String numero) {
+<span class="nc" id="L96">		this.numero = numero;</span>
+<span class="nc" id="L97">	}</span>
+
+
+	public String getTipo() {
+<span class="fc" id="L101">		return tipo;</span>
+	}
+
+
+	public void setTipo(String tipo) {
+<span class="nc" id="L106">		this.tipo = tipo;</span>
+<span class="nc" id="L107">	}</span>
+
+
+	public String getStatus() {
+<span class="fc" id="L111">		return status;</span>
+	}
+
+
+	public void setStatus(String status) {
+<span class="nc" id="L116">		this.status = status;</span>
+<span class="nc" id="L117">	}</span>
+
+
+	public Integer getCapacidadeMinima() {
+<span class="fc" id="L121">		return capacidadeMinima;</span>
+	}
+
+
+	public void setCapacidadeMinima(Integer capacidadeMinima) {
+<span class="nc" id="L126">		this.capacidadeMinima = capacidadeMinima;</span>
+<span class="nc" id="L127">	}</span>
+
+
+	public Integer getCapacidadeMaxima() {
+<span class="fc" id="L131">		return capacidadeMaxima;</span>
+	}
+
+
+	public void setCapacidadeMaxima(Integer capacidadeMaxima) {
+<span class="nc" id="L136">		this.capacidadeMaxima = capacidadeMaxima;</span>
+<span class="nc" id="L137">	}</span>
+
+
+	public Hotel getHotel() {
+<span class="fc" id="L141">		return hotel;</span>
+	}
+
+	public void setHotel(Hotel hotel) {
+<span class="nc" id="L145">		this.hotel = hotel;</span>
+<span class="nc" id="L146">	}</span>
+
+
+	public List&lt;Reserva&gt; getReservas() {
+<span class="nc" id="L150">		return reservas;</span>
+	}
+
+
+	public void setReservas(List&lt;Reserva&gt; reservas) {
+<span class="nc" id="L155">		this.reservas = reservas;</span>
+<span class="nc" id="L156">	}</span>
+
+<span class="fc" id="L158">	public Quarto() {}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

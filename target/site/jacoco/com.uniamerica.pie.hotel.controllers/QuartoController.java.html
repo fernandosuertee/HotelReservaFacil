@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QuartoController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hotel-silvania</a> &gt; <a href="index.source.html" class="el_package">com.uniamerica.pie.hotel.controllers</a> &gt; <span class="el_source">QuartoController.java</span></div><h1>QuartoController.java</h1><pre class="source lang-java linenums">package com.uniamerica.pie.hotel.controllers;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.uniamerica.pie.hotel.models.Quarto;
+import com.uniamerica.pie.hotel.repositories.QuartoRepository;
+import com.uniamerica.pie.hotel.services.QuartoService;
+import com.uniamerica.pie.hotel.services.ReservaService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping(&quot;/quartos&quot;)
+@CrossOrigin(origins = &quot;*&quot;)
+<span class="fc" id="L31">public class QuartoController {</span>
+
+    @Autowired
+    private QuartoService quartoService;
+    
+    @Autowired
+    private QuartoRepository quartoRepository;
+    
+    @Autowired
+    private ReservaService reservaService;
+
+    @PreAuthorize(&quot;hasRole('ADMIN')&quot;)
+    @PostMapping
+    public ResponseEntity&lt;?&gt; cadastrarQuarto(@Valid @RequestBody Quarto quarto) {
+        try {
+<span class="nc" id="L46">            Quarto novoQuarto = quartoService.cadastrarQuarto(quarto);</span>
+<span class="nc" id="L47">            return ResponseEntity.status(HttpStatus.CREATED).body(novoQuarto);</span>
+<span class="nc" id="L48">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L49">            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());</span>
+        }
+    }
+    
+    @PreAuthorize(&quot;hasRole('ADMIN') OR hasRole('USER')&quot;)
+    @GetMapping(&quot;/{quartoId}/disponibilidade&quot;)
+    public ResponseEntity&lt;Boolean&gt; verificarDisponibilidade(
+        @PathVariable Long quartoId,
+        @RequestParam LocalDate dataCheckIn,
+        @RequestParam LocalDate dataCheckOut) {
+<span class="nc" id="L59">        boolean disponivel = reservaService.verificarDisponibilidadePorDatas(quartoId, dataCheckIn, dataCheckOut);</span>
+<span class="nc" id="L60">        return ResponseEntity.ok(disponivel);</span>
+    }
+
+    @PreAuthorize(&quot;hasRole('ADMIN') OR hasRole('USER')&quot;)
+    @GetMapping(&quot;/hotel/{hotelId}/todos&quot;)
+    public ResponseEntity&lt;List&lt;Quarto&gt;&gt; getTodosQuartosPorHotel(@PathVariable Long hotelId) {
+<span class="nc" id="L66">        List&lt;Quarto&gt; quartos = quartoRepository.findByHotelId(hotelId);</span>
+<span class="nc" id="L67">        return ResponseEntity.ok(quartos);</span>
+    }
+
+    @PreAuthorize(&quot;hasRole('ADMIN') OR hasRole('USER')&quot;)
+    @GetMapping(&quot;/hotel/{hotelId}&quot;)
+    public ResponseEntity&lt;List&lt;Quarto&gt;&gt; getQuartosByHotel(@PathVariable Long hotelId) {
+<span class="nc" id="L73">        List&lt;Quarto&gt; quartos = quartoRepository.findByHotelIdAndStatus(hotelId, &quot;Disponível&quot;);</span>
+<span class="nc" id="L74">        return ResponseEntity.ok(quartos);</span>
+    }
+
+    @PreAuthorize(&quot;hasRole('ADMIN') OR hasRole('USER')&quot;)
+    @GetMapping(&quot;/disponiveis&quot;)
+    public ResponseEntity&lt;List&lt;Quarto&gt;&gt; listarQuartosDisponiveis() {
+<span class="nc" id="L80">        List&lt;Quarto&gt; quartos = quartoService.listarQuartosDisponiveis();</span>
+<span class="nc" id="L81">        return ResponseEntity.ok(quartos);</span>
+    }
+
+
+    @PreAuthorize(&quot;hasRole('ADMIN') OR hasRole('USER')&quot;)
+    @GetMapping
+    public ResponseEntity&lt;List&lt;Quarto&gt;&gt; listarTodosOsQuartos() {
+<span class="nc" id="L88">        List&lt;Quarto&gt; quartos = quartoService.listarTodos();</span>
+<span class="nc" id="L89">        return ResponseEntity.ok(quartos);</span>
+    }
+
+    @PreAuthorize(&quot;hasRole('ADMIN') OR hasRole('USER')&quot;)
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Quarto&gt; buscarQuartoPorId(@PathVariable Long id) {
+<span class="nc" id="L95">        Quarto quarto = quartoService.buscarPorId(id);</span>
+<span class="nc" id="L96">        return ResponseEntity.ok(quarto);</span>
+    }
+
+    @PreAuthorize(&quot;hasRole('ADMIN')&quot;)
+    @PutMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Quarto&gt; atualizarQuarto(@PathVariable Long id, @Valid @RequestBody Quarto quartoAtualizado) {
+<span class="nc" id="L102">        Quarto quarto = quartoService.atualizarQuarto(id, quartoAtualizado);</span>
+<span class="nc" id="L103">        return ResponseEntity.ok(quarto);</span>
+    }
+
+    @PreAuthorize(&quot;hasRole('ADMIN')&quot;)
+    @DeleteMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; deletarQuarto(@PathVariable Long id) {
+<span class="nc" id="L109">        quartoService.deletarQuarto(id);</span>
+<span class="nc" id="L110">        return ResponseEntity.noContent().build();</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

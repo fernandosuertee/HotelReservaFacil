@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HospedeService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hotel-silvania</a> &gt; <a href="index.source.html" class="el_package">com.uniamerica.pie.hotel.services</a> &gt; <span class="el_source">HospedeService.java</span></div><h1>HospedeService.java</h1><pre class="source lang-java linenums">package com.uniamerica.pie.hotel.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.uniamerica.pie.hotel.models.Hospede;
+import com.uniamerica.pie.hotel.repositories.HospedeRepository;
+
+@Service
+<span class="fc" id="L12">public class HospedeService {</span>
+
+    @Autowired
+    private HospedeRepository hospedeRepository;
+
+    public Hospede cadastrarHospede(Hospede hospede) {
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        if (hospedeRepository.findByEmail(hospede.getEmail()).isPresent()) {</span>
+<span class="fc" id="L19">            throw new IllegalArgumentException(&quot;Hóspede com este e-mail já existe&quot;);</span>
+        }
+<span class="fc" id="L21">        return hospedeRepository.save(hospede);</span>
+    }
+
+    
+    public List&lt;Hospede&gt; listarTodos() {
+<span class="nc" id="L26">        return hospedeRepository.findAll();</span>
+    }
+
+    
+    public Hospede buscarPorId(Long id) {
+<span class="nc" id="L31">        return hospedeRepository.findById(id)</span>
+<span class="nc" id="L32">                .orElseThrow(() -&gt; new RuntimeException(&quot;Hóspede não encontrado&quot;));</span>
+    }
+
+    public Hospede atualizarHospede(Long id, Hospede hospedeAtualizado) {
+<span class="nc" id="L36">        Hospede hospedeExistente = buscarPorId(id);</span>
+<span class="nc" id="L37">        hospedeExistente.setNome(hospedeAtualizado.getNome());</span>
+<span class="nc" id="L38">        hospedeExistente.setEmail(hospedeAtualizado.getEmail());</span>
+<span class="nc" id="L39">        return hospedeRepository.save(hospedeExistente);</span>
+    }
+
+    public void deletarHospede(Long id) {
+<span class="nc" id="L43">        Hospede hospede = buscarPorId(id);</span>
+<span class="nc" id="L44">        hospedeRepository.delete(hospede);</span>
+<span class="nc" id="L45">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

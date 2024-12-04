@@ -1,0 +1,17 @@
+com/uniamerica/pie/hotel/controllers/QuartoControllerTest.class
+com/uniamerica/pie/hotel/controllers/HospedeControllerTest.class
+com/uniamerica/pie/hotel/controllers/HotelControllerTest.class
+com/uniamerica/pie/hotel/models/QuartoTest.class
+com/uniamerica/pie/hotel/services/QuartoServiceTest.class
+com/uniamerica/pie/hotel/services/ReservaServiceTest.class
+com/uniamerica/pie/hotel/models/HospedeTest.class
+com/uniamerica/pie/hotel/repositories/HotelRepositoryTest.class
+com/uniamerica/pie/hotel/repositories/QuartoRepositoryTest.class
+com/uniamerica/pie/hotel/models/HotelTest.class
+com/uniamerica/pie/hotel/services/HotelServiceTest.class
+com/uniamerica/pie/hotel/services/HospedeServiceTest.class
+com/uniamerica/pie/hotel/repositories/ReservaRepositoryTest.class
+com/uniamerica/pie/hotel/repositories/HospedeRepositoryTest.class
+com/uniamerica/pie/hotel/models/ReservaTest.class
+com/uniamerica/pie/hotel/HotelSilvaniaApplicationTests.class
+com/uniamerica/pie/hotel/controllers/ReservaControllerTest.class
