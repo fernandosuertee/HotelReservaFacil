@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-home',
@@ -11,18 +11,21 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  isAdmin: boolean = false;
 
-  constructor(private router: Router, private authService: AuthService) {
-    this.isAdmin = this.authService.isAdmin();
+  
+
+  loginService = inject(LoginService);
+
+  constructor(private router: Router, ) {
   }
 
   navigateTo(path: string) {
-    this.router.navigate([`/${path}`]);
+    this.router.navigate([`${path}`]);
   }
 
   logout() {
-    this.authService.logout(); 
-    this.router.navigate(['/login']); 
+    this.loginService.removerToken();
+    this.router.navigate(['/login']);
   }
+  
 }
