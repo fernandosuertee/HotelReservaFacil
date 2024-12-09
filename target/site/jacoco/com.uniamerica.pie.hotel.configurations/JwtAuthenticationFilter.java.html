@@ -20,8 +20,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 <span class="fc" id="L22">public class JwtAuthenticationFilter extends OncePerRequestFilter {</span>
+	
 	@Autowired
 	private JwtServiceGenerator jwtService;
+	
 	@Autowired
 	private UserDetailsService userDetailsService;
 
@@ -31,30 +33,30 @@ import jakarta.servlet.http.HttpServletResponse;
 			@NonNull HttpServletResponse response,
 			@NonNull FilterChain filterChain
 			) throws ServletException, IOException {
-<span class="nc" id="L34">		final String authHeader = request.getHeader(&quot;Authorization&quot;);</span>
+<span class="nc" id="L36">		final String authHeader = request.getHeader(&quot;Authorization&quot;);</span>
 		final String jwt;
 		final String userEmail;
-<span class="nc bnc" id="L37" title="All 4 branches missed.">		if(authHeader == null || !authHeader.startsWith(&quot;Bearer &quot;)) {</span>
-<span class="nc" id="L38">			filterChain.doFilter(request,response);</span>
-<span class="nc" id="L39">			return;</span>
+<span class="nc bnc" id="L39" title="All 4 branches missed.">		if(authHeader == null || !authHeader.startsWith(&quot;Bearer &quot;)) {</span>
+<span class="nc" id="L40">			filterChain.doFilter(request,response);</span>
+<span class="nc" id="L41">			return;</span>
 		}
-<span class="nc" id="L41">		jwt = authHeader.substring(7);</span>
-<span class="nc" id="L42">		userEmail = jwtService.extractUsername(jwt);</span>
-<span class="nc bnc" id="L43" title="All 4 branches missed.">		if(userEmail != null &amp;&amp; SecurityContextHolder.getContext().getAuthentication() == null) {</span>
-<span class="nc" id="L44">			UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);</span>
-<span class="nc bnc" id="L45" title="All 2 branches missed.">			if(jwtService.isTokenValid(jwt, userDetails)) {</span>
-<span class="nc" id="L46">				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(</span>
+<span class="nc" id="L43">		jwt = authHeader.substring(7);</span>
+<span class="nc" id="L44">		userEmail = jwtService.extractUsername(jwt);</span>
+<span class="nc bnc" id="L45" title="All 4 branches missed.">		if(userEmail != null &amp;&amp; SecurityContextHolder.getContext().getAuthentication() == null) {</span>
+<span class="nc" id="L46">			UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">			if(jwtService.isTokenValid(jwt, userDetails)) {</span>
+<span class="nc" id="L48">				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(</span>
 						userDetails,
 						null,
-<span class="nc" id="L49">						userDetails.getAuthorities()</span>
+<span class="nc" id="L51">						userDetails.getAuthorities()</span>
 						);
-<span class="nc" id="L51">				authToken.setDetails(</span>
-<span class="nc" id="L52">						new WebAuthenticationDetailsSource().buildDetails(request)</span>
+<span class="nc" id="L53">				authToken.setDetails(</span>
+<span class="nc" id="L54">						new WebAuthenticationDetailsSource().buildDetails(request)</span>
 						);
-<span class="nc" id="L54">				SecurityContextHolder.getContext().setAuthentication(authToken);</span>
+<span class="nc" id="L56">				SecurityContextHolder.getContext().setAuthentication(authToken);</span>
 			}
 		}
-<span class="nc" id="L57">		filterChain.doFilter(request, response);</span>
-<span class="nc" id="L58">	}</span>
+<span class="nc" id="L59">		filterChain.doFilter(request, response);</span>
+<span class="nc" id="L60">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

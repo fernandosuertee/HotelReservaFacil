@@ -36,30 +36,31 @@ import org.springframework.web.filter.CorsFilter;
 <span class="fc" id="L36">		.csrf(AbstractHttpConfigurer::disable)</span>
 <span class="fc" id="L37">		.cors(AbstractHttpConfigurer::disable)</span>
 <span class="fc" id="L38">		.authorizeHttpRequests((requests) -&gt; requests</span>
-<span class="fc" id="L39">				.requestMatchers(&quot;/api/login&quot;).permitAll()</span>
-<span class="fc" id="L40">				.anyRequest().authenticated())</span>
-<span class="fc" id="L41">		.authenticationProvider(authenticationProvider)</span>
-<span class="fc" id="L42">		.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)</span>
-<span class="fc" id="L43">		.sessionManagement(customizer -&gt; customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));</span>
+<span class="fc" id="L39">				.requestMatchers(&quot;/login&quot;).permitAll()</span>
+<span class="fc" id="L40">				.requestMatchers(&quot;/hospedes&quot;, &quot;/quartos&quot;, &quot;/reservas&quot;, &quot;/hoteis&quot;).authenticated()</span>
+<span class="fc" id="L41">                .anyRequest().authenticated())</span>
+<span class="fc" id="L42">		.authenticationProvider(authenticationProvider)</span>
+<span class="fc" id="L43">		.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)</span>
+<span class="fc" id="L44">		.sessionManagement(customizer -&gt; customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));</span>
 
-<span class="fc" id="L45">		return http.build();</span>
+<span class="fc" id="L46">		return http.build();</span>
 	}
 	
 	
 	@Bean
 	public FilterRegistrationBean&lt;CorsFilter&gt; corsFilter() {
-<span class="fc" id="L51">		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();</span>
-<span class="fc" id="L52">		CorsConfiguration config = new CorsConfiguration();</span>
-<span class="fc" id="L53">		config.setAllowCredentials(true);</span>
-<span class="fc" id="L54">		config.setAllowedOriginPatterns(Arrays.asList(&quot;*&quot;));</span>
-		//config.addAllowedOrigin(&quot;http://localhost:4200&quot;);
-<span class="fc" id="L56">		config.setAllowedHeaders(Arrays.asList(HttpHeaders.AUTHORIZATION,HttpHeaders.CONTENT_TYPE,HttpHeaders.ACCEPT));</span>
-<span class="fc" id="L57">		config.setAllowedMethods(Arrays.asList(HttpMethod.GET.name(),HttpMethod.POST.name(),HttpMethod.PUT.name(),HttpMethod.DELETE.name()));</span>
-<span class="fc" id="L58">		config.setMaxAge(3600L);</span>
-<span class="fc" id="L59">		source.registerCorsConfiguration(&quot;/**&quot;, config);</span>
-<span class="fc" id="L60">		FilterRegistrationBean&lt;CorsFilter&gt; bean = new FilterRegistrationBean&lt;CorsFilter&gt;(new CorsFilter(source));</span>
-<span class="fc" id="L61">		bean.setOrder(-102);</span>
-<span class="fc" id="L62">		return bean;</span>
+<span class="fc" id="L52">		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();</span>
+<span class="fc" id="L53">		CorsConfiguration config = new CorsConfiguration();</span>
+<span class="fc" id="L54">		config.setAllowCredentials(true);</span>
+<span class="fc" id="L55">		config.setAllowedOriginPatterns(Arrays.asList(&quot;*&quot;));</span>
+		//config.addAllowedOrigin(&quot;http://3.148.117.97&quot;);
+<span class="fc" id="L57">		config.setAllowedHeaders(Arrays.asList(HttpHeaders.AUTHORIZATION,HttpHeaders.CONTENT_TYPE,HttpHeaders.ACCEPT));</span>
+<span class="fc" id="L58">		config.setAllowedMethods(Arrays.asList(HttpMethod.GET.name(),HttpMethod.POST.name(),HttpMethod.PUT.name(),HttpMethod.DELETE.name()));</span>
+<span class="fc" id="L59">		config.setMaxAge(3600L);</span>
+<span class="fc" id="L60">		source.registerCorsConfiguration(&quot;/**&quot;, config);</span>
+<span class="fc" id="L61">		FilterRegistrationBean&lt;CorsFilter&gt; bean = new FilterRegistrationBean&lt;CorsFilter&gt;(new CorsFilter(source));</span>
+<span class="fc" id="L62">		bean.setOrder(-102);</span>
+<span class="fc" id="L63">		return bean;</span>
 	}
 	
 

@@ -15,23 +15,25 @@ import com.uniamerica.pie.hotel.models.Login;
 import com.uniamerica.pie.hotel.services.LoginService;
 
 @RestController
-@RequestMapping(&quot;/api/login&quot;)
+@RequestMapping(&quot;/&quot;)
 @CrossOrigin(origins = &quot;*&quot;)
 <span class="fc" id="L20">public class LoginController {</span>
 
 	@Autowired
 	private LoginService loginService;
 
-	@PostMapping
+	@PostMapping(&quot;login&quot;)
 	public ResponseEntity&lt;String&gt; logar(@RequestBody Login login) {
+<span class="nc" id="L27">		System.out.println(&quot;fernando&quot;);</span>
+		
 		try {
-<span class="nc" id="L28">			return ResponseEntity.ok(loginService.logar(login));</span>
-<span class="nc" id="L29">		}catch(AuthenticationException ex) {</span>
-<span class="nc" id="L30">			System.out.println(ex.getMessage());</span>
-<span class="nc" id="L31">			return new ResponseEntity&lt;&gt;(null, HttpStatus.UNAUTHORIZED);</span>
-<span class="nc" id="L32">		}catch (Exception e) {</span>
-<span class="nc" id="L33">			System.out.println(e.getMessage());</span>
-<span class="nc" id="L34">			return new ResponseEntity&lt;&gt;(null, HttpStatus.BAD_REQUEST);</span>
+<span class="nc" id="L30">			return ResponseEntity.ok(loginService.logar(login));</span>
+<span class="nc" id="L31">		}catch(AuthenticationException ex) {</span>
+<span class="nc" id="L32">			System.out.println(ex.getMessage());</span>
+<span class="nc" id="L33">			return new ResponseEntity&lt;&gt;(null, HttpStatus.UNAUTHORIZED);</span>
+<span class="nc" id="L34">		}catch (Exception e) {</span>
+<span class="nc" id="L35">			System.out.println(e.getMessage());</span>
+<span class="nc" id="L36">			return new ResponseEntity&lt;&gt;(null, HttpStatus.BAD_REQUEST);</span>
 		}
 	}
 
